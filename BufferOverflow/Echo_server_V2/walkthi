@@ -1,0 +1,26 @@
+./// Echo server v2
+
+APp Echo Server
+IP :192.169.0.129
+
+Port 9000
+___________________________________
+
+1. Buffer sent 2000 crashed
+
+2. create pattern 2000 
+
+3. EIP vlaue => 69423569
+
+4. offset vlaue=> 1036
+
+5. Sending Extra character in buffer {A+B+C}
+
+6. Observed that EIP ="B{42}" not point to next instruction for "C(43")
+
+7. Point EIp to somwhere in Buffer where entry fo "A" is there{0028F764} and check TOS
+
+8.send paylaod again look TOS
+
+9. Send final shellcode
+

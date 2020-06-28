@@ -1,0 +1,36 @@
+APP Easy File Sharing
+
+IP : 192.168.0.134
+
+Port :80
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Easy File Sharing Web Server httpd 6.9
+__________________________________________________________
+
+1. Crashing remote app at 4500
+
+2. Send pattern and find EIp => 46356646
+
+3. Finding offset 4065
+
+4. Find badchar "\x00\x20"
+
+5. IFnding POP POP RET => !mona seh
+
+6. SEH protection so finf 
+{
+	
+	!mona seh
+	find seqxuwnce of instruction  POP r32 POP r32 RETN
+	Executable modules, item 3
+ Base=10000000
+ Size=00050000 (327680.)
+ Entry=1001AB40 ImageLoa.<ModuleEntryPoint>
+ Name=ImageLoa
+ Path=C:\EFS Software\Easy File Sharing Web Server\ImageLoad.dll
+
+} 
+
+
+7. Shelloce 
+

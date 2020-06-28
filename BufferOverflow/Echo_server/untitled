@@ -1,0 +1,23 @@
+//Write up echo server basic 
+
+OS win 7
+IP 192.168.0.130
+Service Echo_server
+Port : 9000
+
+nmap scan
+{
+PORT     STATE  SERVICE    VERSION
+9000/tcp closed cslistener
+MAC Address: 00:0C:29:52:0F:25 (VMware)
+}
+__________________________________________________
+
+1. Crashing (200) and offset {69423569 => 1036 }
+2. bad char \x00
+3. return address => "0028F700"   43434343  CCCC
+
+"\x00\xf7\x28\x00"
+
+
+

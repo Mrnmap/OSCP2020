@@ -1,0 +1,22 @@
+APP Savant Server
+
+IP : 192.168.0.134
+
+Port: 80
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Savant httpd 3.1
+MAC Address: 00:0C:29:52:0F:25 (VMware)
+
+___________________________________________________________________________
+
+1. Fuzzing remote application and finding crash point 290
+
+2. Sending pattern and find EIP 35694134
+
+3. calcualting offsset 254 
+
+4. OVerwrite EIP 
+
+6.Find Redirection add (POP r32
+RETN) 00416B26  X
+

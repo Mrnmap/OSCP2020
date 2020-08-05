@@ -1,0 +1,67 @@
+Privlage Esclation WIndows
+
+Script
+{
+	
+
+}
+
+
+# basic Commnad
+
+1. hostname   =>(find hostname of system)
+2. whoami / priv    =>(find currently logined user)\
+3. systeminfo =>(compelete systeminfo)
+4. Uer operation{
+net users   =>(user of machine)
+
+net localgroups => localgroups 
+
+net user uname => detaield about user
+
+net user uname pwd /add =>  add user
+
+net localgroup administrators hacker/add =>  make admin
+
+
+
+
+}
+
+7. net group /domain =>  VIew domain groups
+8. netsh firewall show state / config =>  firewall setting
+9. route print     => network operation route
+10.arp -a       => arp entry
+11. netstat -ano =>  internal port and services
+12. echo %path% =>  print path variable entry 
+
+
+
+13. wmic qfe get Caption,Description,HotFixID,InstalledOn  => how well system is pactehd
+
+14. chtasks /query /fo LIST /v => display verbose output for all scheduled tasks
+
+15. asklist /SVC => links running processes to started services.
+
+16. net start => service to start
+
+17. DRIVERQUERY => list of installed 3rd party driver
+
+
+
+18 The command below will search the file system for file names containing certain keywords. You can
+specify as many keywords as you wish.
+
+dir /s *pass* == *cred* == *vnc* == *.config*
+
+findstr /si password *.xml *.ini *.txt
+
+19 Similarly the two commands below can be used to grep the registry for keywords, in this case "password".
+
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
+
+
+
+
+

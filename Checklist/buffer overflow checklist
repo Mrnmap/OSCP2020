@@ -69,6 +69,7 @@ Mona command
 !mona compare -f c:\mona\pcmanftpd2\bytearray.bin -a 0012ED6C
 !mona find -s "\xff\xe4" -m "libspp.dll"
 !mona findmsp
+!mona jmp -r esp -cpb '\x00'
 
 
 

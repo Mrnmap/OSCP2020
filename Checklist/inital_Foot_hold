@@ -1,0 +1,174 @@
+A. Banner Grabing
+{ telnet ip port
+ nc -nv ip port
+ curl -iv $ip
+ }
+
+B. Bruteforce with Hydra
+hydra -l uanme -P '/usr/share/wordlists/rockyou.txt' ip service -s port
+
+C. Crack with JOHN
+john  --wordlist /usr/share/wordlist/rockyout.txt hash_file
+
+D. SSHtojohn
+python ssh2john.py id_rsa > id_rsa.hash
+
+
+Port 21 FTP
+{
+	nmap -Pn -n -vvv -p21 -sC -sV $ip
+    
+    ftp ip {Uname/pass anonymous} 
+
+    1. try to uplaod file put file {webshell/ binary/ reverse sherll}
+
+    in Browser ftp://ip try to see uplaod content 
+
+}
+
+Port 22 SSH
+{
+	ssh root@ip  //try defualt{root:root}
+	ssh -i id_rsa uanem@ip
+    try ssh with all founded uname pwd
+  burete fro ssh only wiht uanme
+}
+
+Port 53 DNS
+{
+	nslookup
+	nslookup> server $target_ip
+	nslookup> $target
+	# o/p: ns1.example.com
+
+  dig dns
+  dig axfr url @ip
+
+	# Get all sub-domains
+	host -l -a example.com $target_ip # or ns1.example.com
+
+}
+
+Port 79 Finger
+{
+	
+	finger enumer 
+	./finger-user-enum.pl -U /usr/share/seclists/Usernames/Names/names.txt -t ip
+}
+
+
+Port 80/443
+{
+	wapplyzer
+  whatweb url
+  curl -i url
+   view -source code|robots.txt| backup | /doesnotexist| sitemap.xml
+ dirb url
+ gobutst
+
+ # Use CMS specific wordlist if one is found
+gobuster dir -u http://$ip -w /wordlist -o gobust.out
+# Find technology specific content 
+gobuster dir -u http://$ip -w /wordlist -o gobust_php.out -x php
+# Find hidden notes, readme, changelog
+gobuster dir -u http://$ip -w /wordlist -o gobust_txt.out -x txt
+
+
+in case of CMS nikto -host $ip -o nikto.txt
+
+Wordlpress
+  - wpscan -url url
+  wpscan --url http://$ip -e p,t,u --detection-mode aggressive > wpscan.log
+ 
+Droppal
+
+ droopescan scan drupal http://$ip -t 32
+
+}
+
+
+Port 110 POP 3 
+{
+	# Login
+telnet $ip 110
+USER test
+PASS test
+
+# List and view mails
+# O/P: <mail_number> <mail_length>
+list
+# View mail
+retr <mail_number>
+quit
+}
+
+Port 139/445 SMB
+{
+	
+nmap -Pn -n -p139,445 --script smb-* $ip
+enum4linux -a $ip
+
+nmblookup -A $ip //eum hostname
+
+List all shares
+
+smbmap -H $ip
+# Get share items recursively
+smbmap -H $ip -R <share>
+smbmap -H $ip -d <domain> -u <user> -p <password>
+smbclient -L \\$ip -N
+smbclient -L \\$ip -U <user>
+
+
+Connecitng to share
+# Anonymously
+smbclient //$ip/share -N
+# Authenticated
+smbclient //$ip/share -U <username>
+# Protocol Error?
+smbclient //$ip/share -N --option='client min protocol=NT1'
+}
+
+
+Port161 SNMP
+
+{
+	MIB Values	         Windows Parameters
+1.3.6.1.2.1.25.1.6.0	System Processes
+1.3.6.1.2.1.25.4.2.1.2	Running Programs
+1.3.6.1.2.1.25.4.2.1.4	Processes Path
+1.3.6.1.2.1.25.2.3.1.4	Storage Units
+1.3.6.1.2.1.25.6.3.1.2	Software Name
+1.3.6.1.4.1.77.1.2.25	User Accounts
+1.3.6.1.2.1.6.13.1.3	TCP Local Ports
+
+
+# Enumerate entire MIB tree
+snmpwalk -c public -v1 $ip
+# Enumerate specific MIB Value
+snmpwalk -c public -v1 $ip $MIB_Value
+
+snmp-check $ip
+}
+
+
+Port 2048 NFS
+{
+	# NFS < v4
+# Enumerating shares available, and mount points
+showmount -e $ip
+showmount -a $ip
+
+# Mounting, x = NFS Version
+mount -t nfs -o vers=x $ip:<share> <local_dir>
+
+# On target machine
+# Find mount points on the target where SUID programs and scripts can be run from 
+mount | grep 'nosuid\|noexec'
+}
+
+
+
+
+
+

